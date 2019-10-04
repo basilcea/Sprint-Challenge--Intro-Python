@@ -4,8 +4,8 @@ import csv
 class City:
   def __init__(self , name , lat, lon):
     self.name = name
-    self.lat = lat
-    self.lon = lon
+    self.lat = float(lat)
+    self.lon = float(lon)
   def __str__(self):
     return f'city:{self.name}, lat:{self.lat} ,long:{self.lon}'
 
@@ -73,10 +73,27 @@ for c in cities:
 # Salt Lake City: (40.7774,-111.9301)
 
 # TODO Get latitude and longitude values from the user
-
+    x = input('Enter lat1 , lon1:')
+    y = input('Enter lat2, lon2:')
+    lat1 = x.split()[0]
+    lon1 = x.split()[1]
+    lat2=y.split()[0]
+    lon2=y.split()[1]
 def cityreader_stretch(lat1, lon1, lat2, lon2, cities=[]):
   # within will hold the cities that fall within the specified region
-  within = []
+  if lat1 < lat2:
+    lowerlat = lat1
+    upperlat = lat2
+  else:
+    lowerlat = lat2
+    upperlat =lat1
+  if lon1 < lon2:
+    lowerlon = lon1
+    upperlon = lon2
+  else:
+    lowerlat = lon2
+    upperlat =lon1
+  within = [i for i in cities if lowerlat<= i.lat <= upperlat and lowerlon<=i.lon<=upperlon]
 
   # TODO Ensure that the lat and lon valuse are all floats
   # Go through each city and check to see if it falls within 
