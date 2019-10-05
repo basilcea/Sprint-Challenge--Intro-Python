@@ -1,6 +1,13 @@
 # Create a class to hold a city location. Call the class "City". It should have
 # fields for name, lat and lon (representing latitude and longitude).
-
+import csv
+class City:
+  def __init__(self , name , lat, lon):
+    self.name = name
+    self.lat = float(lat)
+    self.lon = float(lon)
+  def __str__(self):
+    return f'city:{self.name}, lat:{self.lat} ,long:{self.lon}'
 
 # We have a collection of US cities with population over 750,000 stored in the
 # file "cities.csv". (CSV stands for "comma-separated values".)
@@ -17,6 +24,13 @@
 cities = []
 
 def cityreader(cities=[]):
+  with open('cities.csv', newline='') as csv_file:
+    reader = csv.DictReader(csv_file, delimiter=',')
+    for details in reader:
+      newCity = City(details['city'],details['lat'],details['lng'])
+      cities.append(newCity)
+    
+
   # TODO Implement the functionality to read from the 'cities.csv' file
   # For each city record, create a new City instance and add it to the 
   # `cities` list
@@ -59,10 +73,29 @@ for c in cities:
 # Salt Lake City: (40.7774,-111.9301)
 
 # TODO Get latitude and longitude values from the user
-
+    x = input('Enter lat1 , lon1:')
+    y = input('Enter lat2, lon2:')
+    lat1 = x.split()[0]
+    lon1 = x.split()[1]
+    lat2=y.split()[0]
+    lon2=y.split()[1]
 def cityreader_stretch(lat1, lon1, lat2, lon2, cities=[]):
   # within will hold the cities that fall within the specified region
-  within = []
+  if lat1 < lat2:
+    lowerlat = float(lat1)
+    upperlat = float(lat2)
+  else:
+    lowerlat = float(lat2)
+    upperlat =float(lat1)
+    
+  if lon1 < lon2:
+    lowerlon = float(lon1)
+    upperlon = float(lon2)
+  else:
+    lowerlat = float(lon2)
+    upperlat =float(lon1)
+  print(lowerlat, lowerlon,upperlat, upperlon)
+  within = [i for i in cities if lowerlat<= i.lat <= upperlat and lowerlon<=i.lon<=upperlon]
 
   # TODO Ensure that the lat and lon valuse are all floats
   # Go through each city and check to see if it falls within 
